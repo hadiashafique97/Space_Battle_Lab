@@ -29,19 +29,20 @@ class HumanShip {
     }
     attack(evilAlien) {
         if (this.hull > 0) {
-            evilAlien.hull -= this.firepower
-            console.log(`I have ${evilAlien.hull} power left`)
-        } else {
-            if (evilAlien.hull > 3) {
-                evilAlien.firepower -= this.hull
-                console.log(`I have ${this.hull} power left`)
+            console.log(`I ${this.name} have ${this.hull} life left`)
+            if (Math.floor(Math.random() * Math.floor(9)) / 10 <= this.accuracy) {
+                evilAlien.hull -= this.firepower
+                console.log(`You hit the ${evilAlien.name} and they have ${evilAlien.hull} life left`)
             }
+            if (evilAlien.hull <= 0) {
+                console.log(`Congrats! ${this.name} you have accomplished your goal in killing ${evilAlien.name}`)
+                alienShipGenerator.enemyShipCollection.shift()
+            }
+        } else {
+            console.log('Sorry!... you missed')
         }
     }
 }
-    
-   
-
 
 //#endregion
 
@@ -66,32 +67,8 @@ class AlienShip {
         return (Math.floor(Math.random() * 3) + 6) / 10
     }
 }
+
 //#endregion
-
-
-//#region Attackmethod instructions
-//You attack the first alien ship
-// If the ship survives, it attacks you
-// If you survive, you attack the ship again
-// If it survives, it attacks you again … etc
-// If you destroy the ship, you have the option to attack the next ship or to retreat
-// If you retreat, the game is over, perhaps leaving the game open for further developments or options
-// You win the game if you destroy all of the aliens
-// You lose the game if you are destroyed
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //#region ShipGen
 let alienShipGenerator = new EvilShipFactory()
@@ -108,9 +85,34 @@ let MyShip = new HumanShip('USS Generator')
 
 // console.log(MyShip)
 //#endregion
+
+
+console.log(alienShipGenerator.enemyShipCollection)
 MyShip.attack(alienShipGenerator.enemyShipCollection[0])
-MyShip.attack(alienShipGenerator.enemyShipCollection[1])
-MyShip.attack(alienShipGenerator.enemyShipCollection[2])
-MyShip.attack(alienShipGenerator.enemyShipCollection[3])
-MyShip.attack(alienShipGenerator.enemyShipCollection[4])
-MyShip.attack(alienShipGenerator.enemyShipCollection[5])
+console.log(alienShipGenerator.enemyShipCollection)
+// alienShipGenerator.enemyShipCollection.shift()
+
+// function Battlefunction() {
+//     // You attack the first alien ship
+//     MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+//     // If the ship survives, it attacks you
+//     if (alienShipGenerator.enemyShipCollection[0].hull > 0) {
+//         alienShipGenerator.enemyShipCollection[0].attack(MyShip)
+//     }
+//     // If you survive, you attack the ship again
+//     if (MyShip.hull > 0) {
+//         MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+//     }
+//     // If it survives, it attacks you again … etc
+//     if (alienShipGenerator.enemyShipCollection[0].hull > 0) {
+//         alienShipGenerator.enemyShipCollection[0].attack(MyShip)
+//     }
+//     // If you destroy the ship, you have the option to attack the next ship or to retreat
+//     if(alienShipGenerator.enemyShipCollection[0].hull <= 0 ){
+//         console.log('you win')
+//     }
+//     // If you retreat, the game is over, perhaps leaving the game open for further developments or options
+//     // You win the game if you destroy all of the aliens
+//     // You lose the game if you are destroyed
+
+// }
