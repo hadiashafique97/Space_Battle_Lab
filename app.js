@@ -27,6 +27,9 @@ class HumanShip {
         this.accuracy = .7
         this.name = name
     }
+    // retreat(){
+    //     console.log('Game Over')
+    // }
     attack(evilAlien) {
         if (this.hull > 0) {
             console.log(`I ${this.name} have ${this.hull} life left`)
@@ -37,12 +40,26 @@ class HumanShip {
             if (evilAlien.hull <= 0) {
                 console.log(`Congrats! ${this.name} you have accomplished your goal in killing ${evilAlien.name}`)
                 alienShipGenerator.enemyShipCollection.shift()
-            }
+                if (alienShipGenerator.enemyShipCollection.length === 0) {
+                    console.log('YOU ARE THE WINNER')
+                }else{
+                    //give player the options to attack the next alien 
+                    // based on their response that is how you move
+                    //options: alert, modal, user input 
+                }
+            // } else {
+            //     evilAlien.attack(this)
+            // }
         } else {
             console.log('Sorry!... you missed')
+            // if (evilAlien.hull > 0) {
+            //     evilAlien.attack(this)
+            }
         }
+
     }
 }
+
 
 //#endregion
 
@@ -55,6 +72,12 @@ class AlienShip {
         this.accuracy = this.randomAccuracy()
         this.name = name
     }
+
+    // evilAttack(heroship) {
+    //     if (this.hull > 0) {
+
+    //     }
+    // }
 
     randomHull(min, max) {
         return Math.floor(Math.random() * (max - min) + min)
@@ -72,22 +95,18 @@ class AlienShip {
 
 //#region ShipGen
 let alienShipGenerator = new EvilShipFactory()
-alienShipGenerator.makeAlienShip('Ship1')
-alienShipGenerator.makeAlienShip('Ship2')
-alienShipGenerator.makeAlienShip('Ship3')
-alienShipGenerator.makeAlienShip('Ship4')
-alienShipGenerator.makeAlienShip('Ship5')
-alienShipGenerator.makeAlienShip('Ship6')
-// console.log(alienShipGenerator)
-
+alienShipGenerator.makeAlienShip('Evil Ship 1')
+alienShipGenerator.makeAlienShip('Evil Ship 2')
+alienShipGenerator.makeAlienShip('Evil Ship 3')
+alienShipGenerator.makeAlienShip('Evil Ship 4')
+alienShipGenerator.makeAlienShip('Evil Ship 5')
+alienShipGenerator.makeAlienShip('Evil Ship 6')
 
 let MyShip = new HumanShip('USS Generator')
+MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+alienShipGenerator.enemyShipCollection[0].hull = 10
 
-// console.log(MyShip)
-//#endregion
-
-
-console.log(alienShipGenerator.enemyShipCollection)
+MyShip.attack(alienShipGenerator.enemyShipCollection[0])
 MyShip.attack(alienShipGenerator.enemyShipCollection[0])
 console.log(alienShipGenerator.enemyShipCollection)
 // alienShipGenerator.enemyShipCollection.shift()
