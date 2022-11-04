@@ -1,6 +1,4 @@
 
-// let MyShip = new HumanShip('USS Generator')
-// let alienShipGenerator = new EvilShipFactory()
 //#region FactoryClass
 class EvilShipFactory {
     constructor() {
@@ -17,6 +15,11 @@ class EvilShipFactory {
     }
 }
 
+// setTimeout(function() {
+//     alert(
+//       console.log("Would you like to retreat or keep going?")
+//     )
+//   } )
 
 //#endregion
 //#region ClassHuman
@@ -26,10 +29,9 @@ class HumanShip {
         this.firepower = 5
         this.accuracy = .7
         this.name = name
+        // this.turn = true || false
     }
-    // retreat(){
-    //     console.log('Game Over')
-    // }
+   
     attack(evilAlien) {
         if (this.hull > 0) {
             console.log(`I ${this.name} have ${this.hull} life left`)
@@ -42,18 +44,15 @@ class HumanShip {
                 alienShipGenerator.enemyShipCollection.shift()
                 if (alienShipGenerator.enemyShipCollection.length === 0) {
                     console.log('YOU ARE THE WINNER')
-                }else{
-                    //give player the options to attack the next alien 
-                    // based on their response that is how you move
-                    //options: alert, modal, user input 
-                }
-            // } else {
-            //     evilAlien.attack(this)
-            // }
+                } if(this.hul > 0){
+                    this.setTimeout()
+            }} else {
+                evilAlien.firepower -= this.hull
+            }
         } else {
             console.log('Sorry!... you missed')
-            // if (evilAlien.hull > 0) {
-            //     evilAlien.attack(this)
+            if (evilAlien.hull > 0) {
+                evilAlien.firepower -= this.hull
             }
         }
 
@@ -71,13 +70,24 @@ class AlienShip {
         this.firepower = this.randomFirepower(2, 4)
         this.accuracy = this.randomAccuracy()
         this.name = name
+        // this.turn = true || false 
     }
+    evilAttack(heroship) {
+        if (this.hull > 0) {
+            console.log(`The ${this.name} has ${this.hull} life left`)
 
-    // evilAttack(heroship) {
-    //     if (this.hull > 0) {
-
-    //     }
-    // }
+            if (Math.floor(Math.random() * Math.floor(9)) / 10 <= this.accuracy) {
+                heroship.hull -= this.firepower
+                console.log(`${this.name} hit you and you have ${heroship.hull} life left`)
+            } if (heroship.hull <= 0) {
+                console.log('Oh no sorry, but you\'re dead')
+            } else if (heroship.hull > 0) {
+                heroship.attack(this)
+            } else if (this.hull <= 0) {
+                console.log('Great job, you\'ve won')
+            }
+        }
+    }
 
     randomHull(min, max) {
         return Math.floor(Math.random() * (max - min) + min)
@@ -93,9 +103,9 @@ class AlienShip {
 
 //#endregion
 
-//#region ShipGen
+//#region instantiating a class 
 let alienShipGenerator = new EvilShipFactory()
-alienShipGenerator.makeAlienShip('Evil Ship 1')
+ alienShipGenerator.makeAlienShip('Evil Ship 1')
 alienShipGenerator.makeAlienShip('Evil Ship 2')
 alienShipGenerator.makeAlienShip('Evil Ship 3')
 alienShipGenerator.makeAlienShip('Evil Ship 4')
@@ -103,13 +113,27 @@ alienShipGenerator.makeAlienShip('Evil Ship 5')
 alienShipGenerator.makeAlienShip('Evil Ship 6')
 
 let MyShip = new HumanShip('USS Generator')
-MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+// MyShip.attack(alienShipGenerator.enemyShipCollection[0])
 alienShipGenerator.enemyShipCollection[0].hull = 10
+MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+MyShip.attack(alienShipGenerator.enemyShipCollection[0])
 
-MyShip.attack(alienShipGenerator.enemyShipCollection[0])
-MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+alienShipGenerator.enemyShipCollection[0].evilAttack(MyShip)
+
 console.log(alienShipGenerator.enemyShipCollection)
+
 // alienShipGenerator.enemyShipCollection.shift()
+
+
+
+
+
+
+
 
 // function Battlefunction() {
 //     // You attack the first alien ship
