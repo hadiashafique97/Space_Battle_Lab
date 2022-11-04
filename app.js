@@ -1,37 +1,5 @@
-const modal = document.querySelector(".modal");
 
-const trigger = document.querySelector(".trigger");
-const closeButton = document.querySelector(".close-button");
-// const modalPlay = document.querySelector(".modal-play")// add event listeners 
-// modalPlay.addEventListener('click',  MyShip.attack())
-// const modalRetreat = document.querySelector(".modal-retreat")
-// modalRetreat.addEventListener('click', "Game Over")
-
-// function continueGame(){
-//     if (alienShipGenerator.enemyShipCollection[0].length -1 ){
-//         modal.yesNoDialog(modalPlay).then(() => /*do something if Yes*/).catch(() => /*do something if Not*/);
-
-//     }
-// }
-
-
-// function retreatGame(){
-
-// }
-
-function toggleModal() {
-    modal.classList.toggle("show-modal");
-}
-
-function windowOnClick(event) {
-    if (event.target === modal) {
-        toggleModal();
-    }
-}
-
-trigger.addEventListener("click", toggleModal);
-closeButton.addEventListener("click", toggleModal);
-window.addEventListener("click", windowOnClick);
+let isGameOver = false
 
 //#region FactoryClass
 class EvilShipFactory {
@@ -48,8 +16,6 @@ class EvilShipFactory {
         }
     }
 }
-
-
 //#endregion
 //#region ClassHuman
 class HumanShip {
@@ -58,10 +24,10 @@ class HumanShip {
         this.firepower = 5
         this.accuracy = .7
         this.name = name
-
     }
-   
-    attack(evilAlien) {
+    attack(evilAlien) { 
+        checkGame()
+    if(isGameOver == false){
         if (this.hull > 0) {
             console.log(`I ${this.name} have ${this.hull} life left`)
             if (Math.floor(Math.random() * Math.floor(9)) / 10 <= this.accuracy) {
@@ -73,9 +39,12 @@ class HumanShip {
                 alienShipGenerator.enemyShipCollection.shift()
                 if (alienShipGenerator.enemyShipCollection.length === 0) {
                     console.log('YOU ARE THE WINNER')
-                } if(this.hul > 0){
-                    this.setTimeout()
-            }} else {
+                }
+                else{
+                    this.attack(alienShipGenerator.enemyShipCollection[0])
+            
+                }
+            } else {
                 evilAlien.firepower -= this.hull
             }
         } else {
@@ -86,11 +55,10 @@ class HumanShip {
         }
 
     }
+    myGameRound.toggleModal()
 }
-
-
+}
 //#endregion
-
 
 //#region ClassAlien
 class AlienShip {
@@ -130,11 +98,17 @@ class AlienShip {
     }
 }
 
-//#endregion
 
+//#endregion
+//variables for modal 
+const modal = document.querySelector(".modal")
+const trigger = document.querySelector(".trigger")
+const closeButton = document.querySelector(".close-button")
+const modalPlay = document.querySelector(".modal-play")
+const modalRetreat = document.querySelector(".modal-retreat")
 //#region instantiating a class 
 let alienShipGenerator = new EvilShipFactory()
- alienShipGenerator.makeAlienShip('Evil Ship 1')
+alienShipGenerator.makeAlienShip('Evil Ship 1')
 alienShipGenerator.makeAlienShip('Evil Ship 2')
 alienShipGenerator.makeAlienShip('Evil Ship 3')
 alienShipGenerator.makeAlienShip('Evil Ship 4')
@@ -142,19 +116,54 @@ alienShipGenerator.makeAlienShip('Evil Ship 5')
 alienShipGenerator.makeAlienShip('Evil Ship 6')
 
 let MyShip = new HumanShip('USS Generator')
-// MyShip.attack(alienShipGenerator.enemyShipCollection[0])
-alienShipGenerator.enemyShipCollection[0].hull = 10
-MyShip.attack(alienShipGenerator.enemyShipCollection[0])
-MyShip.attack(alienShipGenerator.enemyShipCollection[0])
-MyShip.attack(alienShipGenerator.enemyShipCollection[0])
-MyShip.attack(alienShipGenerator.enemyShipCollection[0])
-MyShip.attack(alienShipGenerator.enemyShipCollection[0])
-MyShip.attack(alienShipGenerator.enemyShipCollection[0])
 
-alienShipGenerator.enemyShipCollection[0].evilAttack(MyShip)
+
 
 console.log(alienShipGenerator.enemyShipCollection)
+//#endregion
 
-// alienShipGenerator.enemyShipCollection.shift()
+// function myAttackArr(){
+//     for(let i = 0 ; i <= alienShipGenerator.enemyShipCollection.length; i++){
+//         MyShip.attack()
+//     }
+//     if(alienShipGenerator.enemyShipCollection.length === 0){
+//         isGameOver = true
+//     }
+// }
+
+function checkGame() {
+    if (alienShipGenerator.enemyShipCollection.length <= 0) {
+        isGameOver = true
+    }
+}
+
+let myGameRound = {
+
+    toggleModal() {
+        modal.classList.toggle("show-modal");
+    },
+    promptMyModal(event) {
+        if (event.target === alienShipGenerator.enemyShipCollection[0]) {
+            toggleModal()
+        }
+    },
+    continueToPlay() {
+        MyShip.attack(alienShipGenerator.enemyShipCollection[0]) // need this to work 
+    },
+    endThisGame() {
+        console.log('THE GAME IS NOW OVER') // this is working
+    }
+}
+
+trigger.addEventListener("click",myGameRound.toggleModal)
+closeButton.addEventListener("click", myGameRound.toggleModal)
+window.addEventListener("load", myGameRound.promptMyModal)
+modalPlay.addEventListener("click", myGameRound.continueToPlay)
+modalRetreat.addEventListener("click", myGameRound.endThisGame)
 
 
+alienShipGenerator.enemyShipCollection[0].hull = 10
+MyShip.attack(alienShipGenerator.enemyShipCollection[0])
+alienShipGenerator.enemyShipCollection[0].evilAttack(MyShip)
+
+// myAttackArr()
