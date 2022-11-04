@@ -1,3 +1,37 @@
+const modal = document.querySelector(".modal");
+
+const trigger = document.querySelector(".trigger");
+const closeButton = document.querySelector(".close-button");
+// const modalPlay = document.querySelector(".modal-play")// add event listeners 
+// modalPlay.addEventListener('click',  MyShip.attack())
+// const modalRetreat = document.querySelector(".modal-retreat")
+// modalRetreat.addEventListener('click', "Game Over")
+
+// function continueGame(){
+//     if (alienShipGenerator.enemyShipCollection[0].length -1 ){
+//         modal.yesNoDialog(modalPlay).then(() => /*do something if Yes*/).catch(() => /*do something if Not*/);
+
+//     }
+// }
+
+
+// function retreatGame(){
+
+// }
+
+function toggleModal() {
+    modal.classList.toggle("show-modal");
+}
+
+function windowOnClick(event) {
+    if (event.target === modal) {
+        toggleModal();
+    }
+}
+
+trigger.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", toggleModal);
+window.addEventListener("click", windowOnClick);
 
 //#region FactoryClass
 class EvilShipFactory {
@@ -15,11 +49,6 @@ class EvilShipFactory {
     }
 }
 
-// setTimeout(function() {
-//     alert(
-//       console.log("Would you like to retreat or keep going?")
-//     )
-//   } )
 
 //#endregion
 //#region ClassHuman
@@ -29,7 +58,7 @@ class HumanShip {
         this.firepower = 5
         this.accuracy = .7
         this.name = name
-        // this.turn = true || false
+
     }
    
     attack(evilAlien) {
@@ -129,33 +158,3 @@ console.log(alienShipGenerator.enemyShipCollection)
 // alienShipGenerator.enemyShipCollection.shift()
 
 
-
-
-
-
-
-
-// function Battlefunction() {
-//     // You attack the first alien ship
-//     MyShip.attack(alienShipGenerator.enemyShipCollection[0])
-//     // If the ship survives, it attacks you
-//     if (alienShipGenerator.enemyShipCollection[0].hull > 0) {
-//         alienShipGenerator.enemyShipCollection[0].attack(MyShip)
-//     }
-//     // If you survive, you attack the ship again
-//     if (MyShip.hull > 0) {
-//         MyShip.attack(alienShipGenerator.enemyShipCollection[0])
-//     }
-//     // If it survives, it attacks you again … etc
-//     if (alienShipGenerator.enemyShipCollection[0].hull > 0) {
-//         alienShipGenerator.enemyShipCollection[0].attack(MyShip)
-//     }
-//     // If you destroy the ship, you have the option to attack the next ship or to retreat
-//     if(alienShipGenerator.enemyShipCollection[0].hull <= 0 ){
-//         console.log('you win')
-//     }
-//     // If you retreat, the game is over, perhaps leaving the game open for further developments or options
-//     // You win the game if you destroy all of the aliens
-//     // You lose the game if you are destroyed
-
-// }
