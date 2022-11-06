@@ -150,6 +150,7 @@ let myGameRound = {
     },
     playAgain() {
         alert(' To Play again reload the browser')
+        
     }
 
 }
