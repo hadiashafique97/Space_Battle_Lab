@@ -61,6 +61,7 @@ class AlienShip {
     }
     death() {
         alienShipGenerator.enemyShipCollection.shift()
+        // myGameRound.checkStatus()
     }
     evilAttack(heroship) {
         if (this.hull > 0) {
@@ -151,8 +152,22 @@ let myGameRound = {
     playAgain() {
         alert(' To Play again reload the browser')
         
+    },
+    checkStatus(){
+        let alien = alienShipGenerator.enemyShipCollection[0]
+        for(let i = 0; i <= alienShipGenerator.enemyShipCollection.length; i++){
+       if(alien.hull -= MyShip.firepower) {
+        console.log(`${alien.name} went kabloo-ey`)
+       }else {
+        if(MyShip.hull === 0 ){
+            console.log(`${MyShip.name} went kabloo-ey`)
+        }else{
+            MyShip.attack()
+        }
+       }
+       return
     }
-
+    }
 }
 
 
@@ -178,9 +193,12 @@ function doBattle() {
         MyShip.attack(alien)
         if (alien.hull > 0) {
             alien.evilAttack(MyShip)
+            
         } else {
+            myGameRound.checkStatus()
             console.log(`${alien.name} is dead and game round is over`)
             alien.death()
+           
             if (alienShipGenerator.enemyShipCollection.length > 0) {
                 setTimeout(() => {
                     myGameRound.toggleModal()
@@ -211,7 +229,6 @@ function checkWinner() {
     return
 }
 //#endregion
-
 
 
 doBattle()
