@@ -34,15 +34,6 @@ class HumanShip {
                     evilAlien.hull -= this.firepower
                     console.log(`You hit the ${evilAlien.name} and they have ${evilAlien.hull} life left`)
                 }
-                // if (evilAlien.hull <= 0) {
-                //     console.log(`Congrats! ${this.name} you have accomplished your goal in killing ${evilAlien.name}`)
-                //     // alienShipGenerator.enemyShipCollection.shift()
-                //     if (alienShipGenerator.enemyShipCollection.length === 0) {
-                //         console.log('YOU ARE THE WINNER')
-                //     }
-
-                // this.attack(alienShipGenerator.enemyShipCollection[0])
-
             } else {
                 evilAlien.firepower -= this.hull
             }
@@ -50,6 +41,7 @@ class HumanShip {
             console.log('Sorry!... you missed')
             if (evilAlien.hull > 0) {
                 evilAlien.firepower -= this.hull
+
             }
         }
 
@@ -67,46 +59,47 @@ class AlienShip {
         this.name = name
         // this.turn = true || false 
     }
-    death(){
+    death() {
         alienShipGenerator.enemyShipCollection.shift()
     }
-        evilAttack(heroship) {
-            if (this.hull > 0) {
-                console.log(`The ${this.name} has ${this.hull} life left`)
-                
-                if (Math.floor(Math.random() * Math.floor(9)) / 10 <= this.accuracy) {
-                    heroship.hull -= this.firepower
-                    console.log(`${this.name} hit you and you have ${heroship.hull} life left`)
-                } if (heroship.hull <= 0) {
-                    console.log('Oh no sorry, but you\'re dead')
-                } else if (heroship.hull > 0) {
-                    heroship.attack(this)
-                } else if (this.hull <= 0) {
-                    console.log('Great job, you\'ve won')
-                }
+    evilAttack(heroship) {
+        if (this.hull > 0) {
+            console.log(`The ${this.name} has ${this.hull} life left`)
+
+            if (Math.floor(Math.random() * Math.floor(9)) / 10 <= this.accuracy) {
+                heroship.hull -= this.firepower
+                console.log(`${this.name} hit you and you have ${heroship.hull} life left`)
+            } if (heroship.hull <= 0) {
+                console.log('Oh no sorry, but you\'re dead')
+            } else if (heroship.hull > 0) {
+                heroship.attack(this)
+            } else if (this.hull <= 0) {
+                console.log('Great job, you\'ve won')
             }
-        }
 
-        randomHull(min, max) {
-            return Math.floor(Math.random() * (max - min) + min)
-
-        }
-        randomFirepower(min, max) {
-            return Math.floor(Math.random() * (max - min) + min);
-        }
-        randomAccuracy() {
-            return (Math.floor(Math.random() * 3) + 6) / 10
         }
     }
 
+    randomHull(min, max) {
+        return Math.floor(Math.random() * (max - min) + min)
 
-    //#endregion
-    //variables for modal 
-    const modal = document.querySelector(".modal")
-    const trigger = document.querySelector(".trigger")
-    const closeButton = document.querySelector(".close-button")
-    const modalPlay = document.querySelector(".modal-play")
-    const modalRetreat = document.querySelector(".modal-retreat")
+    }
+    randomFirepower(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+    randomAccuracy() {
+        return (Math.floor(Math.random() * 3) + 6) / 10
+    }
+}
+
+
+//#endregion
+//variables for modal 
+const modal = document.querySelector(".modal")
+const trigger = document.querySelector(".trigger")
+const closeButton = document.querySelector(".close-button")
+const modalPlay = document.querySelector(".modal-play")
+const modalRetreat = document.querySelector(".modal-retreat")
 //#region instantiating a class 
 let alienShipGenerator = new EvilShipFactory()
 alienShipGenerator.makeAlienShip('Evil Ship 1')
@@ -116,34 +109,31 @@ alienShipGenerator.makeAlienShip('Evil Ship 4')
 alienShipGenerator.makeAlienShip('Evil Ship 5')
 alienShipGenerator.makeAlienShip('Evil Ship 6')
 
-let MyShip = new HumanShip('USS Generator')
+let MyShip = new HumanShip('USS HERO SHIP')
 
 
 
 console.log(alienShipGenerator.enemyShipCollection)
+
 //#endregion
 
-// function myAttackArr(){
-//     for(let i = 0 ; i <= alienShipGenerator.enemyShipCollection.length; i++){
-//         MyShip.attack()
-//     }
-//     if(alienShipGenerator.enemyShipCollection.length === 0){
-//         isGameOver = true
-//     }
-// }
-
+//#region checkgame function
 function checkGame() {
     if (alienShipGenerator.enemyShipCollection.length <= 0) {
         isGameOver = true
+        console.log("This Game is now over")
     }
 }
+//#endregion 
+
+//#region my  gameround object modal methods and calling my attack once 
 
 let myGameRound = {
 
     toggleModal() {
         modal.classList.add("show-modal");
     },
-    closeModal(){
+    closeModal() {
         modal.classList.remove("show-modal")
     },
     promptMyModal(event) {
@@ -156,9 +146,14 @@ let myGameRound = {
         doBattle() // need this to work 
     },
     endThisGame() {
-        console.log('THE GAME IS NOW OVER') // this is working
+        console.log(`THE GAME IS NOW OVER`) // this is working
+    },
+    playAgain() {
+        alert(' To Play again reload the browser')
     }
+
 }
+
 
 trigger.addEventListener("click", myGameRound.toggleModal)
 closeButton.addEventListener("click", myGameRound.closeModal)
@@ -171,31 +166,52 @@ alienShipGenerator.enemyShipCollection[0].hull = 10
 
 alienShipGenerator.enemyShipCollection[0].evilAttack(MyShip)
 
-function doBattle(){
+// #endregion 
+
+//#region do battle function 
+function doBattle() {
     let alien = alienShipGenerator.enemyShipCollection[0]
     while (true) {
-    console.log(alien)
-    console.log(alienShipGenerator.enemyShipCollection)
-    MyShip.attack(alien)
-    if (alien.hull > 0) {
-        alien.evilAttack(MyShip)
-    } else {
-        console.log('Ship is dead')
-        alien.death()
-        if(alienShipGenerator.enemyShipCollection.length > 0){
-            setTimeout(()=> {   
-                myGameRound.toggleModal()
-            }, 600)
-        }else {
-            myGameRound.endThisGame()
+        console.log(alien)
+        console.log(alienShipGenerator.enemyShipCollection)
+        MyShip.attack(alien)
+        if (alien.hull > 0) {
+            alien.evilAttack(MyShip)
+        } else {
+            console.log(`${alien.name} is dead`)
+            alien.death()
+            if (alienShipGenerator.enemyShipCollection.length > 0) {
+                setTimeout(() => {
+                    myGameRound.toggleModal()
+                }, 600)
+            } else {
+                checkWinner()
+                myGameRound.endThisGame()
+                myGameRound.playAgain()
+            }
+            return
+
         }
-        return
+
     }
 }
+//#endregion
+
+//#region checkwinner function 
+function checkWinner() {
+    let alienPlayer = alienShipGenerator.enemyShipCollection[0]
+    let myLife = MyShip.hull
+    if (alienShipGenerator.enemyShipCollection.length === 0 && myLife > 0) {
+        console.log(`${MyShip.name} YOU WON!!!!`)
+    } else {
+        if (myLife === 0 && alienShipGenerator.enemyShipCollection.length > 0)
+            console.log(`${alienPlayer.name} WON, BETTER LUCK NEXT TIME`)
+    }
+    return
 }
+//#endregion
+
+
 
 doBattle()
 
-
-
-// myAttackArr()
