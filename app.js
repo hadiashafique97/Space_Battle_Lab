@@ -179,7 +179,7 @@ function doBattle() {
         if (alien.hull > 0) {
             alien.evilAttack(MyShip)
         } else {
-            console.log(`${alien.name} is dead`)
+            console.log(`${alien.name} is dead and game round is over`)
             alien.death()
             if (alienShipGenerator.enemyShipCollection.length > 0) {
                 setTimeout(() => {

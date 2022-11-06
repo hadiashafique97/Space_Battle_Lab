@@ -117,6 +117,8 @@ align-items: center;
     padding: 1rem 1.5rem;
     width: 24rem;
     border-radius: 0.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color:black;
 }
 
 .close-button {
@@ -126,7 +128,7 @@ align-items: center;
     text-align: center;
     cursor: pointer;
     border-radius: 0.25rem;
-    background-color: lightgray;
+    background-color: darkseagreen;
 }
 
 .close-button:hover {
@@ -138,4 +140,17 @@ align-items: center;
     visibility: visible;
     transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.modal-play { 
+    background-color: black;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 15px;
+}
+.modal-retreat { 
+    background-color: black;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 15px;
 }
